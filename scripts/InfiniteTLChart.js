@@ -15,7 +15,6 @@
 //	limitations under the License.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-
 /**
  * This is a simple chart example that supports infinite scrolling on the timeline axis (the oX axis).
  * Because it uses Canvas and HTML elements to create the chart, and listens for both touch
@@ -34,7 +33,6 @@
  * Created by Mihai Corlan. More info at http://corlan.org or http://twitter.com/mcorlan
  *
  */
-
 (function(window) {
 
     /**
