@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Dashboard</title>
+
+    <script src="scripts/InfiniteTLChart.js"></script>
+    <link href="css/styles.css" rel="stylesheet">
+    
+    <script>
+        var chart, div;
+
+        function init() {
+            window.onresize = onScreenResize;
+            div = document.getElementById('chart');
+            updateDivSize();
+            chart = new InfiniteTLChart(div);
+        }
+
+        function updateDivSize() {
+            div.style.width = window.innerWidth - 20 + 'px';
+            div.style.height = window.innerHeight - (100 + getHeight('h1') + getHeight('h3')) + 'px';
+        }
+
+        function onScreenResize(e) {
+            updateDivSize();
+            chart.updateSize();
+        }
+
+        function getHeight(tagName) {
+            var elements = document.getElementsByTagName(tagName);
+            if (elements.length > 0) {
+                return parseInt(elements[0].clientHeight, 10);
+            } else {
+                return NaN;
+            }
+        }
+
+    </script>
+</head>
+<body onload="init()">
+<h1>Infinite Timeline Simple Chart Example</h1>
+<h3>More info <a href="http://corlan.org">here</a>. Created by Mihai Corlan.</h3>
+
+<div id="chart" style="position: relative; width: 500px; height: 300px">
+
+</div>
+
+</body>
+</html>
