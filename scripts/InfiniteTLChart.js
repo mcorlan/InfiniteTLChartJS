@@ -18,7 +18,10 @@
 /**
  * This is a simple chart example that supports infinite scrolling on the timeline axis (the oX axis).
  * Because it uses Canvas and HTML elements to create the chart, and listens for both touch
- * and mouse events it should work fine on tablets, smartphones, and desktops.
+ * and mouse events it should work fine on tablets, smartphones, and desktops (WebKit based browsers and Firefox).
+ *
+ * It uses transform translateX() for positioning the data, tooltip, and vertical lines. This means that for other
+ * browsers you need to add the equivalent code for webkitTransform/MozTransform.
  *
  * Main features:
  * - Mobile and desktop friendly (tested on iOS, Android, Safari, Chrome Mac)
@@ -282,6 +285,7 @@
             this.chartContext.fillRect((this.chartGutterLeft + currentXOffset), this.chartGutterTop, 1, this.hChart + 5);
             // add the DIV element for adjusting the density
             this.YdivPool[i].style.webkitTransform = 'translateX(' + (currentXOffset - 11) + 'px)';
+            this.YdivPool[i].style.MozTransform = 'translateX(' + (currentXOffset - 11) + 'px)';
             this.YdivPool[i].style.display = '';
             currentXOffset += this.daysInMonth(months[i].getMonth(), months[i].getFullYear()) * this.pxPerDay;
         }
@@ -340,6 +344,7 @@
                 x = x - div.data;
                 div['data-x'] = x;
                 div.style.webkitTransform = 'translateX(' + x + 'px)';
+                div.style.MozTransform = 'translateX(' + x + 'px)';
                 amount += this.dataProvider[i].revenue;
             } else {
                 // hide div because it is out of the view
@@ -424,6 +429,7 @@
             for (i = l; i < noExistingDivs; i++) {
                 this.YdivPool[i].style.display = 'none';
                 this.YdivPool[i].style.webkitTransform = 'translateX(' + -100 + 'px)';
+                this.YdivPool[i].style.MozTransform = 'translateX(' + -100 + 'px)';
             }
             return;
         }
@@ -450,7 +456,11 @@
         e.target.className = 'verticalLineHandlerDrag';
         this.dragObj.cursorStartX = e.touches[0].clientX + window.scrollX;
         this.dragObj.totalMove = 0;
-        this.dragObj.elStartLeft  = parseInt(e.target.style.webkitTransform.replace("translateX(",""), 10);
+        if (e.target.style.webkitTransform) {
+            this.dragObj.elStartLeft  = parseInt(e.target.style.webkitTransform.replace("translateX(",""), 10);
+        } else if (e.target.style.MozTransform) {
+            this.dragObj.elStartLeft  = parseInt(e.target.style.MozTransform.replace("translateX(",""), 10);
+        }
         e.stopPropagation();
     }
     p.dragGo = function(e) {
@@ -464,8 +474,10 @@
         x = this.dragObj.elStartLeft + x - this.dragObj.cursorStartX;
         this.dragObj.totalMove = x;
         // Move drag element by the same amount the cursor has moved.
-        if (this.dragObj.elNode !== null)
+        if (this.dragObj.elNode !== null) {
             this.dragObj.elNode.style.webkitTransform = 'translateX(' + x + 'px)';
+            this.dragObj.elNode.style.MozTransform = 'translateX(' + x + 'px)';
+        }
         e.stopPropagation();
     }
     p.dragStop = function(e) {
@@ -508,6 +520,7 @@
         div.style.display = 'none';
         x = -1000;
         div.style.webkitTransform = 'translateX(' + x + 'px)';
+        div.style.MozTransform = 'translateX(' + x + 'px)';
         this.divPool.push(div);
         data.div = null;
         div['data-provider'] = null;
