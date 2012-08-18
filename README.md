@@ -22,5 +22,5 @@
     and the tooltip functions.</p>
 
     <h3>More Info</h3>
-    <p>If you want to read more about how it works check my <a href="http://corlan.org/">blog post</a>.</p>
+    <p>If you want to read more about how it works check my <a href="http://corlan.org/2012/08/18/infinite-timeline-scrolling-chart-with-htmlcssjs/">blog post</a>.</p>
 </div>
